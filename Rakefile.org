@@ -1,11 +1,9 @@
 require 'fileutils'
 
-MRUBY_VERSION="1.2.0"
+MRUBY_VERSION="master"
 
 file :mruby do
-  #sh "git clone --depth=1 https://github.com/mruby/mruby"
-  sh "curl -L --fail --retry 3 --retry-delay 1 https://github.com/mruby/mruby/archive/#{MRUBY_VERSION}.tar.gz -s -o - | tar zxf -"
-  FileUtils.mv("mruby-#{MRUBY_VERSION}", "mruby")
+  sh "git clone --depth=1 https://github.com/mruby/mruby"
 end
 
 APP_NAME=ENV["APP_NAME"] || "simulacre"
@@ -142,7 +140,6 @@ Rake.application.tasks.each do |task|
     old_task = Rake.application.instance_variable_get('@tasks').delete(task.name)
     desc old_task.full_comment
     task old_task.name => old_task.prerequisites do
-      abort("Not running in docker, you should type \"docker-compose run <task>\".")         unless is_in_a_docker_container?
       old_task.invoke
     end
   end
