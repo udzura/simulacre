@@ -1,4 +1,5 @@
 mruby/
+src/mrb_clock_gettime.c
 
 *.a
 *.o
